@@ -17,6 +17,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   initMyListButton();
   initSearchInput();
   initSettingsModal();
+  initFilterBarResize();
 
   try {
     const resp = await fetch("data.json");
@@ -35,42 +36,64 @@ document.addEventListener("DOMContentLoaded", async () => {
   }
 });
 
+// フィルターバーの高さ変化に合わせてメインコンテンツの上余白を追従させる
+function initFilterBarResize() {
+  const filterBar = document.getElementById("filter-bar");
+  const main = document.getElementById("main-content");
+  const update = () => {
+    main.style.paddingTop = filterBar.offsetHeight + 12 + "px";
+  };
+  new ResizeObserver(update).observe(filterBar);
+  update();
+}
+
 // ─── フィルターメニュー ────────────────────────────────────────────────────────
 
 function buildFilterMenus() {
-  const types = [...new Set(allPrograms.map(p => p.type))].sort();
-  const genres = [...new Set(allPrograms.map(p => p.genre).filter(Boolean))].sort();
+  const typeCounts = {};
+  const genreCounts = {};
+  allPrograms.forEach(p => {
+    typeCounts[p.type] = (typeCounts[p.type] || 0) + 1;
+    if (p.genre) genreCounts[p.genre] = (genreCounts[p.genre] || 0) + 1;
+  });
 
-  buildMenu("type-menu", "type-btn", types, "番組タイプ", v => {
+  const types = Object.keys(typeCounts).sort();
+  const genres = Object.keys(genreCounts).sort();
+
+  buildMenu("type-menu", "type-btn", types, typeCounts, "番組タイプ", v => {
     filters.type = v;
     renderCards();
   });
-  buildMenu("genre-menu", "genre-btn", genres, "ジャンル", v => {
+  buildMenu("genre-menu", "genre-btn", genres, genreCounts, "ジャンル", v => {
     filters.genre = v;
     renderCards();
   });
 }
 
-function buildMenu(menuId, btnId, items, label, onSelect) {
+function buildMenu(menuId, btnId, items, counts, label, onSelect) {
   const menu = document.getElementById(menuId);
   const btn = document.getElementById(btnId);
 
   // 「すべて」項目
-  const allItem = makeDropdownItem("すべて", () => {
+  menu.appendChild(makeDropdownItem("すべて", () => {
     onSelect(null);
     btn.textContent = label;
     btn.classList.remove("active");
-    btn.appendChild(makeToggleCaret());
-  });
-  menu.appendChild(allItem);
+  }));
 
   items.forEach(item => {
-    menu.appendChild(makeDropdownItem(item, () => {
+    const count = counts[item] || 0;
+    const li = makeDropdownItem(`${item}`, () => {
       onSelect(item);
       btn.textContent = item;
       btn.classList.add("active");
-      btn.appendChild(makeToggleCaret());
-    }));
+    });
+    // 件数をグレーで右寄せ表示
+    const countSpan = document.createElement("span");
+    countSpan.className = "dropdown-count";
+    countSpan.textContent = count;
+    li.appendChild(countSpan);
+    menu.appendChild(li);
   });
 }
 
@@ -81,13 +104,6 @@ function makeDropdownItem(text, onClick) {
   a.textContent = text;
   a.addEventListener("click", e => { e.preventDefault(); onClick(); });
   return a;
-}
-
-function makeToggleCaret() {
-  // Bootstrap が .dropdown-toggle に caret を追加するが、textContent で消えるため再追加
-  const span = document.createElement("span");
-  // Bootstrap 4 では CSS 擬似要素で付く。追加不要。
-  return document.createTextNode(" ");
 }
 
 // ─── テキスト検索 ─────────────────────────────────────────────────────────────
