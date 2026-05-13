@@ -2,8 +2,7 @@
 
 // ─── 状態 ────────────────────────────────────────────────────────────────────
 
-let allPrograms = [];    // data.json から読んだ全番組
-let openMode = localStorage.getItem("openMode") || "web";   // "web" | "app"
+let allPrograms = [];
 let showMyListOnly = false;
 
 // 後で見るリスト (URL の Set)
@@ -15,7 +14,6 @@ const filters = { type: null, genre: null, text: "" };
 // ─── 初期化 ──────────────────────────────────────────────────────────────────
 
 document.addEventListener("DOMContentLoaded", async () => {
-  initOpenModeToggle();
   initMyListButton();
   initSearchInput();
   initSettingsModal();
@@ -36,34 +34,6 @@ document.addEventListener("DOMContentLoaded", async () => {
       '<p class="text-danger">データの読み込みに失敗しました</p>';
   }
 });
-
-// ─── Web/App モード ───────────────────────────────────────────────────────────
-
-function initOpenModeToggle() {
-  const btnWeb = document.getElementById("btn-web");
-  const btnApp = document.getElementById("btn-app");
-
-  function applyMode(mode) {
-    openMode = mode;
-    localStorage.setItem("openMode", mode);
-    btnWeb.classList.toggle("active", mode === "web");
-    btnApp.classList.toggle("active", mode === "app");
-    document.querySelectorAll(".video-card").forEach(card => {
-      const webUrl = card.dataset.webUrl;
-      if (!webUrl) return;
-      const targetUrl = mode === "app" ? toAppUrl(webUrl) : webUrl;
-      card.querySelectorAll(".card-thumb-link, .card-title-link").forEach(a => {
-        a.href = targetUrl;
-        a.target = "_blank";
-      });
-      card.querySelector(".open-app-btn").classList.toggle("hidden", mode === "app");
-    });
-  }
-
-  btnWeb.addEventListener("click", () => applyMode("web"));
-  btnApp.addEventListener("click", () => applyMode("app"));
-  applyMode(openMode);
-}
 
 // ─── フィルターメニュー ────────────────────────────────────────────────────────
 
@@ -180,13 +150,10 @@ function renderCards() {
   visible.forEach(program => {
     const card = tpl.content.cloneNode(true);
     const root = card.querySelector(".video-card");
-    root.dataset.webUrl = program.url;
 
-    const activeUrl = openMode === "app" ? toAppUrl(program.url) : program.url;
-
-    // サムネイル
+    // サムネイル → Web URL を新規タブで開く
     const thumbLink = card.querySelector(".card-thumb-link");
-    thumbLink.href = activeUrl;
+    thumbLink.href = program.url;
     thumbLink.target = "_blank";
     const thumb = card.querySelector(".card-thumb");
     thumb.src = program.thumbnail;
@@ -199,9 +166,9 @@ function renderCards() {
     if (program.viewerPlanType) card.querySelector(".badge-paid").classList.remove("hidden");
     if (program.releaseState === "ended") card.querySelector(".badge-ended").classList.remove("hidden");
 
-    // タイトルリンク
+    // タイトル → Web URL を新規タブで開く
     const titleLink = card.querySelector(".card-title-link");
-    titleLink.href = activeUrl;
+    titleLink.href = program.url;
     titleLink.target = "_blank";
     card.querySelector(".card-title").textContent = program.title;
 
@@ -209,10 +176,8 @@ function renderCards() {
     card.querySelector(".card-date").textContent = formatDate(program.broadcastAt);
     card.querySelector(".card-duration").textContent = program.duration || "";
 
-    // アプリで開くボタン (App モード時は非表示 — メインリンクがすでにアプリURL)
-    const appBtn = card.querySelector(".open-app-btn");
-    appBtn.classList.toggle("hidden", openMode === "app");
-    appBtn.addEventListener("click", () => openInApp(program.url));
+    // アプリで開くボタン → app.shirasu.io URL を新規タブで開く
+    card.querySelector(".open-app-btn").addEventListener("click", () => openInApp(program.url));
 
     // 後で見るボタン
     const wlBtn = card.querySelector(".watchlater-btn");

@@ -47,28 +47,6 @@ body {
 
 .header-right { gap: 4px; }
 
-/* Web/App トグル */
-.toggle-group {
-  display: flex;
-  border: 1px solid rgba(255,255,255,.6);
-  border-radius: 4px;
-  overflow: hidden;
-}
-.toggle-btn {
-  background: transparent;
-  border: none;
-  color: rgba(255,255,255,.8);
-  font-size: 12px;
-  font-weight: 600;
-  padding: 4px 10px;
-  cursor: pointer;
-  transition: background .15s;
-}
-.toggle-btn.active {
-  background: rgba(255,255,255,.9);
-  color: #333;
-}
-.toggle-btn:hover:not(.active) { background: rgba(255,255,255,.2); }
 
 /* アイコンボタン */
 .icon-btn {
