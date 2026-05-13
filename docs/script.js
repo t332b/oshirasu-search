@@ -48,12 +48,15 @@ function initOpenModeToggle() {
     localStorage.setItem("openMode", mode);
     btnWeb.classList.toggle("active", mode === "web");
     btnApp.classList.toggle("active", mode === "app");
-    document.querySelectorAll(".open-app-btn").forEach(btn => {
-      btn.classList.toggle("hidden", mode === "web");
-    });
-    // web モード時は各リンクに target="_blank"、app モードは target="_self" (universal links)
-    document.querySelectorAll(".card-thumb-link, .card-title-link").forEach(a => {
-      a.target = mode === "web" ? "_blank" : "_self";
+    document.querySelectorAll(".video-card").forEach(card => {
+      const webUrl = card.dataset.webUrl;
+      if (!webUrl) return;
+      const targetUrl = mode === "app" ? toAppUrl(webUrl) : webUrl;
+      card.querySelectorAll(".card-thumb-link, .card-title-link").forEach(a => {
+        a.href = targetUrl;
+        a.target = "_blank";
+      });
+      card.querySelector(".open-app-btn").classList.toggle("hidden", mode === "app");
     });
   }
 
@@ -177,11 +180,14 @@ function renderCards() {
   visible.forEach(program => {
     const card = tpl.content.cloneNode(true);
     const root = card.querySelector(".video-card");
+    root.dataset.webUrl = program.url;
+
+    const activeUrl = openMode === "app" ? toAppUrl(program.url) : program.url;
 
     // サムネイル
     const thumbLink = card.querySelector(".card-thumb-link");
-    thumbLink.href = program.url;
-    thumbLink.target = openMode === "web" ? "_blank" : "_self";
+    thumbLink.href = activeUrl;
+    thumbLink.target = "_blank";
     const thumb = card.querySelector(".card-thumb");
     thumb.src = program.thumbnail;
     thumb.alt = program.title;
@@ -195,17 +201,17 @@ function renderCards() {
 
     // タイトルリンク
     const titleLink = card.querySelector(".card-title-link");
-    titleLink.href = program.url;
-    titleLink.target = openMode === "web" ? "_blank" : "_self";
+    titleLink.href = activeUrl;
+    titleLink.target = "_blank";
     card.querySelector(".card-title").textContent = program.title;
 
     // メタ情報
     card.querySelector(".card-date").textContent = formatDate(program.broadcastAt);
     card.querySelector(".card-duration").textContent = program.duration || "";
 
-    // アプリで開くボタン
+    // アプリで開くボタン (App モード時は非表示 — メインリンクがすでにアプリURL)
     const appBtn = card.querySelector(".open-app-btn");
-    if (openMode === "app") appBtn.classList.remove("hidden");
+    appBtn.classList.toggle("hidden", openMode === "app");
     appBtn.addEventListener("click", () => openInApp(program.url));
 
     // 後で見るボタン
@@ -235,10 +241,12 @@ function formatDate(iso) {
 
 // ─── アプリで開く ─────────────────────────────────────────────────────────────
 
+function toAppUrl(webUrl) {
+  return webUrl.replace("https://shirasu.io/", "https://app.shirasu.io/");
+}
+
 function openInApp(webUrl) {
-  // Universal links: 同じ URL を _self で開くと iOS/Android がアプリに誘導する場合がある
-  // ほとんどのデバイスでブラウザ側で処理されるが、universal links が設定されていれば有効
-  window.location.href = webUrl;
+  window.open(toAppUrl(webUrl), "_blank");
 }
 
 // ─── 後で見るリスト ────────────────────────────────────────────────────────────
