@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>さやわかのカルチャーお白洲 検索</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- ヘッダー -->
+  <header id="site-header" class="fixed-top d-flex align-items-center">
+    <button id="title-btn" class="site-title">お白洲サーチ</button>
+
+    <div class="header-right ml-auto d-flex align-items-center">
+      <!-- Web/App切り替え -->
+      <div id="open-mode-toggle" class="toggle-group mr-2" title="開き方を切り替え">
+        <button id="btn-web" class="toggle-btn active">Web</button>
+        <button id="btn-app" class="toggle-btn">App</button>
+      </div>
+
+      <!-- MyList -->
+      <div class="mylist-wrap mr-1">
+        <button id="mylist-btn" class="icon-btn" title="後で見るリスト">
+          <svg viewBox="0 0 24 24" width="22" height="22"><path d="M4 6H2v14c0 1.1.9 2 2 2h14v-2H4V6zm16-4H8c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-1 9H9V9h10v2zm-4 4H9v-2h6v2zm4-8H9V5h10v2z"/></svg>
+          <span id="mylist-count" class="badge-count hidden">0</span>
+        </button>
+      </div>
+
+      <!-- 設定 -->
+      <button id="settings-btn" class="icon-btn" data-toggle="modal" data-target="#settings-modal" title="設定">
+        <svg viewBox="0 0 24 24" width="22" height="22"><path d="M19.14 12.94c.04-.3.06-.61.06-.94s-.02-.64-.07-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"/></svg>
+      </button>
+    </div>
+  </header>
+
+  <!-- フィルター -->
+  <div id="filter-bar" class="filter-bar">
+    <div class="d-flex flex-wrap align-items-center" style="gap:6px;">
+      <!-- 番組タイプ -->
+      <div class="dropdown">
+        <button id="type-btn" class="filter-btn dropdown-toggle" data-toggle="dropdown">
+          番組タイプ
+        </button>
+        <div class="dropdown-menu" id="type-menu"></div>
+      </div>
+
+      <!-- ジャンル -->
+      <div class="dropdown">
+        <button id="genre-btn" class="filter-btn dropdown-toggle" data-toggle="dropdown">
+          ジャンル
+        </button>
+        <div class="dropdown-menu" id="genre-menu"></div>
+      </div>
+
+      <!-- テキスト検索 -->
+      <div class="search-wrap flex-grow-1">
+        <svg viewBox="0 0 24 24" width="16" height="16" class="search-icon"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
+        <input type="text" id="search-input" placeholder="タイトル検索">
+        <button id="search-clear" class="clear-btn hidden">✕</button>
+      </div>
+
+      <span id="result-count" class="result-count"></span>
+    </div>
+  </div>
+
+  <!-- メインコンテンツ -->
+  <main id="main-content">
+    <div id="loading" class="text-center py-5">
+      <div class="spinner-border text-secondary" role="status"></div>
+      <p class="mt-2 text-muted">読み込み中...</p>
+    </div>
+    <div id="video-grid" class="video-grid hidden"></div>
+    <div id="empty-message" class="text-center py-5 text-muted hidden">
+      <p>該当する動画が見つかりませんでした</p>
+    </div>
+  </main>
+
+  <!-- 設定モーダル -->
+  <div class="modal fade" id="settings-modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">設定</h5>
+          <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
+        </div>
+        <div class="modal-body">
+
+          <!-- Gist同期 -->
+          <h6 class="settings-section-title">後で見るリスト — デバイス間同期 (GitHub Gist)</h6>
+          <p class="text-muted small">GitHub の Personal Access Token (gist スコープ) を入力すると、リストを Gist に保存して複数デバイスで共有できます。</p>
+
+          <div class="form-group">
+            <label class="small font-weight-bold">GitHub PAT <span class="text-muted">(gist スコープ)</span></label>
+            <input type="password" id="gist-pat" class="form-control form-control-sm" placeholder="ghp_xxxxxxxxxxxx">
+          </div>
+          <div class="form-group">
+            <label class="small font-weight-bold">Gist ID <span class="text-muted">(他のデバイスで読み込む場合)</span></label>
+            <div class="input-group input-group-sm">
+              <input type="text" id="gist-id" class="form-control" placeholder="自動設定 または 他デバイスのIDを入力">
+              <div class="input-group-append">
+                <button id="gist-pull-btn" class="btn btn-outline-secondary btn-sm">読み込み</button>
+              </div>
+            </div>
+          </div>
+          <div class="d-flex" style="gap:8px;">
+            <button id="gist-save-btn" class="btn btn-primary btn-sm flex-grow-1">PAT を保存して同期</button>
+            <button id="gist-clear-btn" class="btn btn-outline-danger btn-sm">解除</button>
+          </div>
+          <div id="gist-status" class="small mt-2"></div>
+
+          <hr>
+
+          <!-- MyList管理 -->
+          <h6 class="settings-section-title">後で見るリスト管理</h6>
+          <div class="d-flex flex-wrap" style="gap:8px;">
+            <button id="list-download-btn" class="btn btn-outline-secondary btn-sm">JSON ダウンロード</button>
+            <button id="list-upload-btn" class="btn btn-outline-secondary btn-sm">JSON 読み込み</button>
+            <input type="file" id="list-file-input" accept=".json" class="hidden">
+            <button id="list-delete-btn" class="btn btn-outline-danger btn-sm">リストを削除</button>
+          </div>
+
+          <hr>
+          <p class="text-muted small mb-0">データ更新: <span id="updated-at"></span></p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 動画カードテンプレート -->
+  <template id="card-template">
+    <div class="video-card">
+      <a class="card-thumb-link" target="_blank">
+        <img class="card-thumb" loading="lazy" alt="">
+        <div class="card-badges">
+          <span class="badge-type hidden"></span>
+          <span class="badge-genre hidden"></span>
+          <span class="badge-paid hidden">有料</span>
+          <span class="badge-ended hidden">公開終了</span>
+        </div>
+      </a>
+      <div class="card-body-inner">
+        <a class="card-title-link" target="_blank">
+          <h3 class="card-title"></h3>
+        </a>
+        <div class="card-meta">
+          <span class="card-date"></span>
+          <span class="card-duration"></span>
+        </div>
+        <div class="card-actions">
+          <button class="open-app-btn hidden btn btn-sm btn-outline-secondary">アプリで開く</button>
+          <button class="watchlater-btn btn btn-sm">後で見る</button>
+        </div>
+      </div>
+    </div>
+  </template>
+
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>

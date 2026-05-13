@@ -1,0 +1,15 @@
+{
+  "permissions": {
+    "allow": [
+      "WebFetch(domain:shirasu.io)",
+      "Bash(curl -s \"https://shirasu.io/main.ec57403cc4de2b56a840.js?6f2e20643708b9ec62f8\")",
+      "Bash(grep -oE 'program\\\\\\(.*?\\\\{.*?\\\\}.*?\\\\\\).*?[\"`]\\\\/t\\\\/|f\\\\.user\\\\.program[^}]+\\\\}[^`\"]*[`\"]')",
+      "Bash(grep -oE '`/t/\\\\$\\\\{[^`]+\\\\}`')",
+      "Bash(grep -o '\"/t/\".\\\\{0,100\\\\}')",
+      "Bash(grep -o 'programSlug.\\\\{0,300\\\\}')",
+      "Bash(grep -o 'programSlug.\\\\{0,50\\\\}resolve\\\\|resolve.\\\\{0,50\\\\}programSlug\\\\|programSlug.*function\\\\|Program.*slug')",
+      "Bash(curl -sI \"https://shirasu.io/t/someru/someru-someru-20260330171702\")",
+      "Bash(curl -sI \"https://shirasu.io/c/someru/someru-someru-20260330171702\")"
+    ]
+  }
+}
