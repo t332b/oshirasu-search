@@ -1,7 +1,21 @@
 {
-  "updatedAt": "2026-05-15T03:31:35Z",
+  "updatedAt": "2026-06-01T04:05:28Z",
   "channel": "someru",
   "programs": [
+    {
+      "id": "someru-someru-20260531223133",
+      "title": "批評編（テレビ #20）「NHKの教育アニメ『アイラブみー』がすごすぎて夢中である。という話」",
+      "url": "https://shirasu.io/t/someru/c/someru/p/20260531223133",
+      "thumbnail": "https://asset.shirasu.io/public/programs/someru-someru-20260531223133/thumbnail",
+      "broadcastAt": "2026-05-31T13:50:00.000Z",
+      "duration": "1:35:00",
+      "totalPlayTime": 5700,
+      "viewerPlanType": null,
+      "releaseState": "open",
+      "type": "批評編",
+      "genre": "テレビ",
+      "seriesNum": 20
+    },
     {
       "id": "someru-someru-20260330171702",
       "title": "批評編（映画 #103）「『プロジェクト・ヘイル・メアリー』見た！超人気SF作がエモく映画化されてるよ」",
