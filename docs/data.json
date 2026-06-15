@@ -1,7 +1,35 @@
 {
-  "updatedAt": "2026-06-01T04:05:28Z",
+  "updatedAt": "2026-06-15T04:18:02Z",
   "channel": "someru",
   "programs": [
+    {
+      "id": "someru-someru-20260610175817",
+      "title": "批評編（漫画 #20）「夏目房之助『僕らはマンガを言葉にしたかった』がよかったのでオススメする回」",
+      "url": "https://shirasu.io/t/someru/c/someru/p/20260610175817",
+      "thumbnail": "https://asset.shirasu.io/public/programs/someru-someru-20260610175817/thumbnail",
+      "broadcastAt": "2026-06-10T09:15:00.000Z",
+      "duration": "1:50:00",
+      "totalPlayTime": 6600,
+      "viewerPlanType": null,
+      "releaseState": "open",
+      "type": "批評編",
+      "genre": "マンガ",
+      "seriesNum": 20
+    },
+    {
+      "id": "someru-someru-20260604193332",
+      "title": "理論編（音楽 #40）「超初心者向け・ポピュラー音楽のわかり方」⑮～知っとくと便利な概念“サンプリング”",
+      "url": "https://shirasu.io/t/someru/c/someru/p/20260604193332",
+      "thumbnail": "https://asset.shirasu.io/public/programs/someru-someru-20260604193332/thumbnail",
+      "broadcastAt": "2026-06-04T10:55:00.000Z",
+      "duration": "1:35:00",
+      "totalPlayTime": 5700,
+      "viewerPlanType": null,
+      "releaseState": "open",
+      "type": "理論編",
+      "genre": "音楽",
+      "seriesNum": 40
+    },
     {
       "id": "someru-someru-20260531223133",
       "title": "批評編（テレビ #20）「NHKの教育アニメ『アイラブみー』がすごすぎて夢中である。という話」",
