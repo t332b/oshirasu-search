@@ -1,7 +1,35 @@
 {
-  "updatedAt": "2026-07-01T03:54:12Z",
+  "updatedAt": "2026-07-15T02:26:37Z",
   "channel": "someru",
   "programs": [
+    {
+      "id": "someru-someru-20260714161855",
+      "title": "批評編（アニメ #22）「『攻殻機動隊』TVシリーズは、漫画だ・・・という感想を、そろそろ言ってよい気配」",
+      "url": "https://shirasu.io/t/someru/c/someru/p/20260714161855",
+      "thumbnail": "https://asset.shirasu.io/public/programs/someru-someru-20260714161855/thumbnail",
+      "broadcastAt": "2026-07-14T07:40:00.000Z",
+      "duration": "2:00:00",
+      "totalPlayTime": 7200,
+      "viewerPlanType": null,
+      "releaseState": "open",
+      "type": "批評編",
+      "genre": "アニメ",
+      "seriesNum": 22
+    },
+    {
+      "id": "someru-someru-20260707140555",
+      "title": "理論編（漫画 #21）「考え方」㉕メソッドよりも理由の方が大事、という当然の話with“ネーム模写”とは何か",
+      "url": "https://shirasu.io/t/someru/c/someru/p/20260707140555",
+      "thumbnail": "https://asset.shirasu.io/public/programs/someru-someru-20260707140555/thumbnail",
+      "broadcastAt": "2026-07-07T05:25:00.000Z",
+      "duration": "2:15:00",
+      "totalPlayTime": 8100,
+      "viewerPlanType": null,
+      "releaseState": "open",
+      "type": "理論編",
+      "genre": "マンガ",
+      "seriesNum": 21
+    },
     {
       "id": "someru-someru-20260630161427",
       "title": "突然雑談 #72「60分限定雑談！原稿やりつつW杯日本代表ブラジル戦を見た話。など」",
