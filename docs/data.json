@@ -1,7 +1,21 @@
 {
-  "updatedAt": "2026-08-15T01:11:43Z",
+  "updatedAt": "2026-09-01T03:49:07Z",
   "channel": "someru",
   "programs": [
+    {
+      "id": "someru-someru-20260828191143",
+      "title": "納涼！特別企画 10年分の100/1000作品！さやわか式☆ベスト・オブ・ベストハンドレッド",
+      "url": "https://shirasu.io/t/someru/c/someru/p/20260828191143",
+      "thumbnail": "https://asset.shirasu.io/public/programs/someru-someru-20260828191143/thumbnail",
+      "broadcastAt": "2026-08-28T10:40:00.000Z",
+      "duration": "7:30:00",
+      "totalPlayTime": 27000,
+      "viewerPlanType": null,
+      "releaseState": "open",
+      "type": "その他",
+      "genre": null,
+      "seriesNum": null
+    },
     {
       "id": "someru-someru-20260731183842",
       "title": "批評編（映画 #107）「本日公開！『スパイダーマン ブランド・ニュー・デイ』がオタクの甘え心をへし折るぞ」",
