@@ -1,7 +1,21 @@
 {
-  "updatedAt": "2026-09-01T03:49:07Z",
+  "updatedAt": "2026-09-15T03:38:40Z",
   "channel": "someru",
   "programs": [
+    {
+      "id": "someru-someru-20260904184438",
+      "title": "批評編（映画 #107）「本日公開！リミナルスペースだ！A24だ！流行りものだ！『バックルームズ』ですよ」",
+      "url": "https://shirasu.io/t/someru/c/someru/p/20260904184438",
+      "thumbnail": "https://asset.shirasu.io/public/programs/someru-someru-20260904184438/thumbnail",
+      "broadcastAt": "2026-09-04T10:05:00.000Z",
+      "duration": "1:50:00",
+      "totalPlayTime": 6600,
+      "viewerPlanType": null,
+      "releaseState": "open",
+      "type": "批評編",
+      "genre": "映画",
+      "seriesNum": 107
+    },
     {
       "id": "someru-someru-20260828191143",
       "title": "納涼！特別企画 10年分の100/1000作品！さやわか式☆ベスト・オブ・ベストハンドレッド",
